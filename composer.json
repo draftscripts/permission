@@ -1,0 +1,30 @@
+{
+    "name": "draftscripts/permission",
+    "description": "Laravel Permission",
+    "type": "library",
+    "require": {
+        "spatie/laravel-permission": "^6.9",
+        "livewire/livewire": "^3.5",
+        "maatwebsite/excel": "^3.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Draftscripts\\Permission\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Draftscripts\\Permission\\PermissionServiceProvider"
+            ],
+            "aliases": {
+                "LaraPermission": "Draftscripts\\Permission\\Facades\\LaraPermission"
+            }
+        }
+    },
+    "minimum-stability": "stable"
+}
