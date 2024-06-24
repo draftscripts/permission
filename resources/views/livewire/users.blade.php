@@ -25,20 +25,24 @@
                         </div>
 
                         <div class="flex items-center space-x-4">
-                            <x-lara-permission::primary-button color="light" type="button" wire:click="exportExcel('csv')">
+                            <x-lara-permission::primary-button color="light" type="button"
+                                wire:click="exportExcel('csv')">
                                 csv
                             </x-lara-permission::primary-button>
-                            <x-lara-permission::primary-button color="light" type="button" wire:click="exportExcel('xlsx')">
+                            <x-lara-permission::primary-button color="light" type="button"
+                                wire:click="exportExcel('xlsx')">
                                 Xslx
                             </x-lara-permission::primary-button>
                             <x-lara-permission::primary-button color="light" type="button">
                                 PDF
                             </x-lara-permission::primary-button>
 
-                            <x-lara-permission::primary-button type="button" wire:click="$dispatch('open-modal', 'create-modal')">
+                            <x-lara-permission::primary-button type="button"
+                                wire:click="$dispatch('open-modal', 'create-modal')">
                                 Create
                             </x-lara-permission::primary-button>
-                            <x-lara-permission::primary-button color="light" type="button" wire:click="sendNotification">
+                            <x-lara-permission::primary-button color="light" type="button"
+                                wire:click="sendNotification">
                                 Send Notification
                             </x-lara-permission::primary-button>
                         </div>
@@ -102,7 +106,8 @@
                                         <tr class="border-b border-gray-200 on-parent-hover-show">
                                             <td colspan="5" class="text-center px-3 py-2">
                                                 You have selected <strong>{{ count($selectedItem) }}</strong> users.
-                                                <button class="text-red-500 hover:text-red-700">Delete</button> them?
+                                                <button class="text-red-500 hover:text-red-700">Delete</button>
+                                                them?
                                             </td>
                                         </tr>
                                     @endif
@@ -176,7 +181,8 @@
         </div>
     </div>
 
-    <x-lara-permission::modal name="create-modal" maxWidth="3xl" title="{{ $editableMode ? 'Update' : 'Create' }} User">
+    <x-lara-permission::modal name="create-modal" maxWidth="3xl"
+        title="{{ $editableMode ? 'Update' : 'Create' }} User">
 
         <form class="p-6" wire:submit="store">
 
@@ -185,7 +191,7 @@
                     <label class="form-label">
                         Name
                     </label>
-                    <input wire:model="name" class="form-control"type="text" placeholder="Jane" required />
+                    <input wire:model="name" class="form-control" type="text" placeholder="Jane" required />
                 </div>
                 <div class="w-full md:w-1/2 px-3">
                     <label class="form-label">
@@ -232,7 +238,6 @@
                     @endforeach
                 </div>
             </div>
-
 
 
             <div class="flex justify-end">
