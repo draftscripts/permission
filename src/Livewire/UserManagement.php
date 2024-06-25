@@ -1,10 +1,10 @@
 <?php
 
-namespace Draftscripts\Permission\Livewire;
+namespace DraftScripts\Permission\Livewire;
 
-use Draftscripts\Permission\Exports\UserExport;
-use Draftscripts\Permission\Mail\AccountVerification;
-use Draftscripts\Permission\Models\User;
+use DraftScripts\Permission\Exports\UserExport;
+use DraftScripts\Permission\Mail\AccountVerification;
+use DraftScripts\Permission\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,8 +16,7 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
-#[Layout('lara-permission::components.app')]
-class UserManagement extends Component
+class UserManagement extends PermissionLayout
 {
     use WithPagination;
 
@@ -112,17 +111,24 @@ class UserManagement extends Component
             $this->update();
             return;
         }
+
         $this->validate();
 
-        $user = new User;
-        $user->name = $this->name;
-        $user->email = $this->email;
-        $user->password = bcrypt($this->password);
-        $user->save();
-        // assign role
-        $user->syncRoles($this->roles);
+        try {
+            $user = new User;
+            $user->name = $this->name;
+            $user->email = $this->email;
+            $user->password = bcrypt($this->password);
+            $user->save();
+            // assign role
+            $user->syncRoles($this->roles);
 
-        $this->reset();
+            $this->reset();
+            $this->dispatch('success', 'User Successfully Created.');
+            $this->dispatch('close-modal', 'create-modal');
+        } catch (\Exception $exception) {
+            $this->dispatch('error', $exception->getMessage());
+        }
     }
 
     public function editItem($id): void
@@ -131,8 +137,9 @@ class UserManagement extends Component
         $user = User::find($id);
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->roles = $user->roles->pluck('id')->toArray();
+        $this->roles = $user->roles->pluck('name')->toArray();
         $this->editableMode = true;
+        $this->dispatch('open-modal', 'create-modal');
         $this->userId = $id;
     }
 
@@ -144,17 +151,22 @@ class UserManagement extends Component
             'roles' => 'nullable|array',
         ]);
 
-        $user = User::find($this->userId);
-        $user->name = $this->name;
-        $user->email = $this->email;
-        if ($this->password) {
-            $user->password = bcrypt($this->password);
+        try {
+            $user = User::find($this->userId);
+            $user->name = $this->name;
+            $user->email = $this->email;
+            if ($this->password) {
+                $user->password = bcrypt($this->password);
+            }
+            $user->save();
+            // assign role
+            $user->syncRoles($this->roles);
+            $this->editableMode = false;
+            $this->reset();
+            $this->dispatch('close-modal', 'create-modal');
+        } catch (\Exception $exception) {
+            $this->dispatch('error', $exception->getMessage());
         }
-        $user->save();
-        // assign role
-        $user->syncRoles($this->roles);
-        $this->editableMode = false;
-        $this->reset();
     }
 
     public function deleteItem($id): void
