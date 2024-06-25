@@ -24,23 +24,24 @@
                         </div>
 
                         <div class="flex items-center space-x-4">
-                            <x-primary-button color="light" type="button">
+                            <x-lara-permission::button color="light" type="button">
                                 csv
-                            </x-primary-button>
-                            <x-primary-button color="light" type="button">
+                            </x-lara-permission::button>
+                            <x-lara-permission::button color="light" type="button">
                                 Xslx
-                            </x-primary-button>
-                            <x-primary-button color="light" type="button">
+                            </x-lara-permission::button>
+                            <x-lara-permission::button color="light" type="button">
                                 PDF
-                            </x-primary-button>
+                            </x-lara-permission::button>
 
-                            <x-primary-button type="button" wire:click="$dispatch('open-modal', 'role-modal')">
+                            <x-lara-permission::button type="button"
+                                wire:click="$dispatch('open-modal', 'role-modal')">
                                 Create
-                            </x-primary-button>
+                            </x-lara-permission::button>
                         </div>
                     </div>
 
-                    <x-search-input wire:model="searchKey" />
+                    <x-lara-permission::search-input wire:model="searchKey" />
                 </div>
 
                 <div class="flex flex-col">
@@ -82,7 +83,7 @@
                                         <tr class="border-b border-gray-200 on-parent-hover-show">
                                             <td class="px-3 py-2 text-sm">
                                                 <label class="inline-flex items-center">
-                                                    <x-box-input wire:model="selectedItem"
+                                                    <x-lara-permission::box-input wire:model="selectedItem"
                                                         value="{{ $role->id }}" />
                                                     <span class="ml-2 text-gray-700">
                                                         {{ $loop->iteration }}
@@ -105,26 +106,25 @@
                                                 </span>
                                             </td>
                                             <td class="px-3 py-2 text-center">
-                                                <x-dropdown align="right">
-                                                    <x-slot name="trigger">
-                                                        <button type="button">
-                                                            <span class="material-icons">
-                                                                more_vert
-                                                            </span>
-                                                        </button>
-                                                    </x-slot>
-
-                                                    <x-slot name="content">
-                                                        <x-dropdown-link href="#"
-                                                            wire:click="editItem({{ $role->id }})">
-                                                            Edit</x-dropdown-link>
-                                                        <x-dropdown-link href="{{ route('role.show', $role->id) }}">
-                                                            View</x-dropdown-link>
-                                                        <x-dropdown-link href="#"
-                                                            wire:click.prevent="deleteItem({{ $role->id }})">
-                                                            Delete</x-dropdown-link>
-                                                    </x-slot>
-                                                </x-dropdown>
+                                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                                    <x-lara-permission::button
+                                                        wire:click="editItem({{ $role->id }})"
+                                                        class="rounded-r-none" color="light">
+                                                        Edit
+                                                    </x-lara-permission::button>
+                                                    @if (Route::has('lara-permission.role.show'))
+                                                        <x-lara-permission::button as="a" wire:navigate
+                                                            href="{{ route('lara-permission.role.show', $role->id) }}"
+                                                            class="rounded-none">
+                                                            View
+                                                        </x-lara-permission::button>
+                                                    @endif
+                                                    <x-lara-permission::button color="danger"
+                                                        wire:click="deleteItem({{ $role->id }})"
+                                                        class="rounded-l-none">
+                                                        Delete
+                                                    </x-lara-permission::button>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -139,7 +139,7 @@
 
     {{-- role create or update modal --}}
 
-    <x-modal name="role-modal" maxWidth="3xl" title="{{ $editableMode ? 'Update' : 'Create' }}">
+    <x-lara-permission::modal name="role-modal" maxWidth="3xl" title="{{ $editableMode ? 'Update' : 'Create' }}">
 
         <form class="p-6" wire:submit="store">
 
@@ -170,14 +170,15 @@
                     @foreach ($this->features as $feature)
                         <div class="form-control">
                             <label class="flex items-center mb-2">
-                                <x-box-input />
+                                <x-lara-permission::box-input />
                                 <span class="ml-2">{{ $feature->name }}</span>
                             </label>
                             <div class="flex items-center space-x-2">
                                 @foreach ($this->permissionsList as $permission)
                                     @continue(\Illuminate\Support\Str::of($permission->name)->beforeLast('-') != $feature->slug)
                                     <label class="block">
-                                        <x-box-input value="{{ $permission->id }}" wire:model="permissions" />
+                                        <x-lara-permission::box-input value="{{ $permission->id }}"
+                                            wire:model="permissions" />
                                         <span class="mr-2 ml-1 text-gray-700">
                                             {{ \Illuminate\Support\Str::of($permission->name)->afterLast('-')->replace('_', ' ')->ucfirst() }}
                                         </span>
@@ -189,14 +190,15 @@
                 </div>
             </div>
             <div class="flex justify-end">
-                <x-primary-button color="danger" type="button" wire:click="$dispatch('close')">
+                <x-lara-permission::button color="danger" type="button"
+                    wire:click="$dispatch('close-modal', 'role-modal')">
                     {{ __('Cancel') }}
-                </x-primary-button>
+                </x-lara-permission::button>
 
-                <x-primary-button class="ml-3">
+                <x-lara-permission::button class="ml-3">
                     Save
-                </x-primary-button>
+                </x-lara-permission::button>
             </div>
         </form>
-    </x-modal>
+    </x-lara-permission::modal>
 </div>

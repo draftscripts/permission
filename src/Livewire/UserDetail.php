@@ -13,7 +13,7 @@ class UserDetail extends PermissionLayout
     public $user;
     public $features_permissions = [];
 
-    public function mount(UserService $userService, int $id)
+    public function mount(UserService $userService, int $id): void
     {
         $this->user = $userService->userDetailsById($id);
 
@@ -22,7 +22,7 @@ class UserDetail extends PermissionLayout
             $permissions = $this->user->getAllPermissions();
 
             // manipulate feature permissions
-            $this->features_permissions = $permissions->map(function (Permission $permission) {
+            $this->features_permissions = collect($permissions)->map(function (Permission $permission) {
                 $permission['feature'] = (string)Str::of($permission->name)->before('-')->replace('_', ' ')->ucfirst();
 
                 return $permission;
@@ -35,6 +35,6 @@ class UserDetail extends PermissionLayout
 
     public function render(): View
     {
-        return view('lara-permission::livewire.user-show');
+        return view('lara-permission::livewire.user-detail');
     }
 }
