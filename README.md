@@ -1,65 +1,62 @@
-# Laravel App
+# An BD GEO Location Packages for Laravel
 
-![laravel](https://laravel.com/assets/img/components/logo-laravel.svg)
+[![Packagist Version](https://img.shields.io/packagist/v/draftscripts/permission)](https://github.com/draftscripts/permission)
+[![Total Downloads](https://img.shields.io/packagist/dt/draftscripts/permission)](https://github.com/draftscripts/permission)
 
-## Features
+This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-- Authentication (Breeze)
-- Authorization
-- CRUD Operations
-- CRUD Operations with API
-- Excel Import/Export(With Queue)
-- PDF Generate
-- Mail Send
-- Notification Send
-- Queue
-- Event
-- Listener
-- Dockerize Application
-- Scale Application
+We invest a lot of resources into creating [best in class open source packages](https://draftscripts.com/open-source). You can support us by [buying one of our paid products](https://draftscripts.com/open-source/support-us).
 
-## Run Application Or Contributing
+We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://draftscripts.com/about-us). We publish all received postcards on [our virtual postcard wall](https://draftscripts.com/open-source/postcards).
 
-1. Clone Repository
-2. Run command `composer install`
-3. Copy `env. example file`, and rename .env
-4. Then Run command `php artisan key:generate`
-5. Then Run command `php artisan migrate`
-6. Then Run command `php artisan db:seed`
+## Installation
 
-## Required Permissions
-
-If you are facing any issues regarding the permissions, then you need to run the following command in your project directory:
-
-```sh
-sudo chmod -R o+rw bootstrap/cache
-sudo chmod -R o+rw storage
-```
-
-## Dockerize Application
-
-To run the application in docker container
+You can install the package via composer:
 
 ```bash
-docker-compose up -d --build
+composer require draftscripts/permission
 ```
 
-## Run Application Scale Mode
-
-To run the application in scale mode
+You can publish and run the migrations with:
 
 ```bash
-docker-compose up -d --build --scale laravel-app=3
+php artisan vendor:publish --tag="lara-permission-migrations"
+php artisan migrate
 ```
 
-## Show Application container Logs
-
-To show the application container logs
+You can publish the config file with (Optional):
 
 ```bash
-docker logs -f <container-name>
+php artisan vendor:publish --tag="lara-permission-config"
 ```
 
-## Developed by Zaman
+now you can visit permission route [/permission]
 
-![Zaman](https://assets.gitlab-static.net/uploads/-/system/user/avatar/7189772/avatar.png?width=90)
+
+Optionally, you can publish the views using
+
+```bash
+php artisan vendor:publish --tag="laravel-openai-views"
+```
+
+## Testing
+
+```bash
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
